@@ -1,0 +1,32 @@
+version: '3'
+
+services: 
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    depends_on: 
+      - mysql
+    environment:
+      WORDPRESS_DB_PASSWORD: root
+    networks: 
+      - frontend
+      - backend
+    
+  mysql:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks: 
+      - backend
+
+networks: 
+  frontend:
+    driver: 'bridge'
+  backend:
+    driver: 'bridge'
